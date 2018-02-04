@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface ProduitRepository extends JpaRepository<Produit, Long> {
 	
-	@Query("select p from Produit p where p.designation like :designation")
+	@Query("select p from Produit p where p.designation like %:designation%")
 	public Page<Produit> chercherParDesignation(@Param("designation") String designation, Pageable pageable);
 
 }

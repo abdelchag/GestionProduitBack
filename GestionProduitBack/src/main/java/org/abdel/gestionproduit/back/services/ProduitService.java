@@ -7,6 +7,7 @@ import org.abdel.gestionproduit.back.entities.Produit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@CrossOrigin(value="http://localhost:4200")
 public class ProduitService {
 	
 	@Autowired
@@ -44,7 +46,7 @@ public class ProduitService {
 	}
 	
 	@RequestMapping(value="/produits/{id}", method=RequestMethod.DELETE)
-	public void saveProduit(@PathVariable Long id){
+	public void deleteProduit(@PathVariable Long id){
 		repo.delete(id);
 	}
 	
