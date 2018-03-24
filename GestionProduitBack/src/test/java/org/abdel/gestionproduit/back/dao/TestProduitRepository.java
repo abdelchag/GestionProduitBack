@@ -1,13 +1,17 @@
 package org.abdel.gestionproduit.back.dao;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import org.abdel.gestionproduit.back.entities.Produit;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Role;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ActiveProfiles;
@@ -53,6 +57,11 @@ public class TestProduitRepository {
 		assertThat(actual).isNull();
 	}
 	
+	@Test(expected=EmptyResultDataAccessException.class)
+	public void testDeleteProduitNotFound(){
+		repo.delete(Double.doubleToLongBits(Math.random()));
+	}
+	
 	
 	@Test
 	public void testFindByDesignation(){
@@ -61,6 +70,22 @@ public class TestProduitRepository {
 		assertThat(actual).isNotNull();
 		assertThat(actual.getContent().isEmpty()).isFalse();
 		assertThat(actual.getTotalElements()).isEqualTo(1);
+	}
+	
+	@Test
+	public void testFindOneFound(){
+		Produit actual = repo.save(expected);
+		Produit expected = repo.findOne(actual.getId());
+		assertThat(expected).isEqualTo(actual);
+		
+	}
+	
+	@Test
+	public void testFindOneNotFound(){
+		repo.save(expected);
+		Produit expected = repo.findOne(Double.doubleToLongBits(Math.random()));
+		assertThat(expected).isNull();
+		
 	}
 	
 	
