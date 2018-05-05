@@ -2,11 +2,16 @@ package org.abdel.gestionproduit.back.services;
 
 import java.util.List;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import org.abdel.gestionproduit.back.dao.ProduitRepository;
 import org.abdel.gestionproduit.back.entities.Produit;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,13 +21,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@RequestMapping(path = "/")
 @CrossOrigin(value="http://localhost:4200")
+@Api(value = "GestionProduitControllerAPI", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProduitService {
 	
 	@Autowired
 	private ProduitRepository repo;
 	
-	@RequestMapping(value="/produits", method=RequestMethod.GET)
+	@RequestMapping(value = "/produits",method=RequestMethod.GET)
+	@ApiOperation("Get all product")
+	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Produit.class, responseContainer = "List"),
+							@ApiResponse(code= 500, message = "Erreur Serveur", response = RuntimeException.class),
+							@ApiResponse(code= 404, message = "Erreur Client", response = Exception.class)})
 	public List<Produit> getAll(){
 		return repo.findAll();
 	}
