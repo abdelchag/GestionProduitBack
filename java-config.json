@@ -1,0 +1,10 @@
+{
+  "modelPackage" : "org.abdel.gestionproduit.testswaggercodegen.model",
+  "apiPackage"   : "org.abdel.gestionproduit.testswaggercodegen.api",
+  "invokerPackage" : "org.abdel.gestionproduit.testswaggercodegen",
+  "groupId" : "org.abdel.gestionproduit.testswaggercodegen",
+  "artifactId"  : "GestionProduitTestSwagger",
+  "fullJavaUtil" : true,
+  "dateLibrary" : "java8",
+  "library" :  "jersey2"
+}
