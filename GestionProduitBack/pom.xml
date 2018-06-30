@@ -93,7 +93,19 @@
 			<version>2.6.1</version>
 		</dependency>
 
+		<dependency>
+			<groupId>org.apache.wink</groupId>
+			<artifactId>wink-server</artifactId>
+			<version>1.4</version>
+		</dependency>
 
+
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.3</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -107,55 +119,55 @@
 		</plugins>
 	</build>
 
-<profiles>
-	<profile>
-		<id>swagger-codegen</id>
+	<profiles>
+		<profile>
+			<id>swagger-codegen</id>
 
-		<properties>
-			<swagger.codegen.input>http://localhost:8080/v2/api-docs</swagger.codegen.input>
-			<swagger.generated-sources.path>../GestionProduitClientSwagger</swagger.generated-sources.path>
-			<swagger.generated-sources.java-path>src/main/java</swagger.generated-sources.java-path>
-			<version.swagger.codegen>2.3.1</version.swagger.codegen>
-		</properties>
+			<properties>
+				<swagger.codegen.input>http://localhost:8080/gestionProduit/documentation.json</swagger.codegen.input>
+				<swagger.generated-sources.path>../GestionProduitClientSwagger</swagger.generated-sources.path>
+				<swagger.generated-sources.java-path>src/main/java</swagger.generated-sources.java-path>
+				<version.swagger.codegen>2.3.1</version.swagger.codegen>
+			</properties>
 
-		<build>
-			<plugins>
-				<plugin>
-					<groupId>io.swagger</groupId>
-					<artifactId>swagger-codegen-maven-plugin</artifactId>
-					<version>${version.swagger.codegen}</version>
-					<configuration>
-						<inputSpec>${swagger.codegen.input}</inputSpec>
-						<configOptions>
-							<sourceFolder>${swagger.generated-sources.java-path}</sourceFolder>
-						</configOptions>
-						<output>${swagger.generated-sources.path}</output>
-					</configuration>
-					<executions>
-						<execution>
-							<id>generate-swagger-javaclient</id>
-							<phase>generate-sources</phase>
-							<goals>
-								<goal>generate</goal>
-							</goals>
-							<configuration>
-								<language>java</language>
-								<modelPackage>org.abdel.gestionproduit.testswaggercodegen.model</modelPackage>
-								<apiPackage>org.abdel.gestionproduit.testswaggercodegen.apiapi</apiPackage>
-								<invokerPackage>org.abdel.gestionproduit.testswaggercodegen</invokerPackage>
-								<groupId>org.abdel.gestionproduit.testswaggercodegen</groupId>
-								<artifactId>GestionProduitTestSwagger</artifactId>
-								<fullJavaUtil>true</fullJavaUtil>
-								<dateLibrary>java8</dateLibrary>
-								<library>jersey2</library>
-								<basePath>http://localhost:8080</basePath>
-							</configuration>
-						</execution>
-					</executions>
-				</plugin>
-			</plugins>
-		</build>
-	</profile>
-</profiles>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>io.swagger</groupId>
+						<artifactId>swagger-codegen-maven-plugin</artifactId>
+						<version>${version.swagger.codegen}</version>
+						<configuration>
+							<inputSpec>${swagger.codegen.input}</inputSpec>
+							<configOptions>
+								<sourceFolder>${swagger.generated-sources.java-path}</sourceFolder>
+							</configOptions>
+							<output>${swagger.generated-sources.path}</output>
+						</configuration>
+						<executions>
+							<execution>
+								<id>generate-swagger-javaclient</id>
+								<phase>generate-sources</phase>
+								<goals>
+									<goal>generate</goal>
+								</goals>
+								<configuration>
+									<language>java</language>
+									<modelPackage>org.abdel.gestionproduit.testswaggercodegen.model</modelPackage>
+									<apiPackage>org.abdel.gestionproduit.testswaggercodegen.apiapi</apiPackage>
+									<invokerPackage>org.abdel.gestionproduit.testswaggercodegen</invokerPackage>
+									<groupId>org.abdel.gestionproduit.testswaggercodegen</groupId>
+									<artifactId>GestionProduitTestSwagger</artifactId>
+									<fullJavaUtil>true</fullJavaUtil>
+									<dateLibrary>java8</dateLibrary>
+									<library>jersey2</library>
+									<basePath>http://localhost:8080</basePath>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
 </project>

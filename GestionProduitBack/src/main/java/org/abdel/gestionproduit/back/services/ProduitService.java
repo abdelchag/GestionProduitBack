@@ -2,10 +2,6 @@ package org.abdel.gestionproduit.back.services;
 
 import java.util.List;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
 import org.abdel.gestionproduit.back.dao.ProduitRepository;
 import org.abdel.gestionproduit.back.entities.Produit;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +16,21 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping(path = "/")
-@CrossOrigin(value="http://localhost:4200")
+@CrossOrigin(value="*")
 @Api(value = "GestionProduitControllerAPI", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProduitService {
-	
+
+
 	@Autowired
 	private ProduitRepository repo;
+
 	
 	@RequestMapping(value = "/produits",method=RequestMethod.GET)
 	@ApiOperation("Get all product")
@@ -44,7 +47,17 @@ public class ProduitService {
 	}
 	
 	@RequestMapping(value="/chercher", method=RequestMethod.GET)
+	@ApiResponse(code = 200, message = "OK", response = Produit.class, responseContainer = "Page")
 	public Page<Produit> getProduitsByDesign(
+			@RequestParam(name="design") String designation,
+			@RequestParam(defaultValue="0") int page,
+			@RequestParam(defaultValue="3") int size){
+		return repo.chercherParDesignation(designation, new PageRequest(page, size));
+	}
+
+	@RequestMapping(value="/ckalab", method=RequestMethod.GET)
+	@ApiResponse(code = 200, message = "OK", response = Produit.class, responseContainer = "Page")
+	public Page<Produit> getProduitsByDesignation(
 			@RequestParam(name="design") String designation,
 			@RequestParam(defaultValue="0") int page,
 			@RequestParam(defaultValue="3") int size){
@@ -52,16 +65,19 @@ public class ProduitService {
 	}
 	
 	@RequestMapping(value="/produits", method=RequestMethod.POST)
+	@ApiResponse(code = 200, message = "OK", response = Produit.class)
 	public Produit saveProduit(@RequestBody Produit produit){
 		return repo.save(produit);
 	}
 	
 	@RequestMapping(value="/produits/{id}", method=RequestMethod.DELETE)
+	@ApiResponse(code = 200, message = "OK")
 	public void deleteProduit(@PathVariable Long id){
 		repo.delete(id);
 	}
 	
 	@RequestMapping(value="/produits/{id}", method=RequestMethod.PUT)
+	@ApiResponse(code = 200, message = "OK", response = Produit.class)
 	public Produit saveProduit(@PathVariable Long id, @RequestBody Produit produit){
 		produit.setId(id);
 		return repo.saveAndFlush(produit);
