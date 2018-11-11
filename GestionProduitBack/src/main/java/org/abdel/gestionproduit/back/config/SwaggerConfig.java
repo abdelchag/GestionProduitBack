@@ -4,7 +4,6 @@ import org.abdel.gestionproduit.back.services.ProduitService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-
 import org.springframework.context.annotation.PropertySource;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
@@ -20,7 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
 
     private static final String SWAGGER_API_VERSION = "1.0";
-    private static final String LICENSE_TEXT = "License";
+    private static final String LICENSE_TEXT = "License abdel.chag";
     private static final String title = "Gestion Produits REST API";
     private static final String description = "RESTful API pour la gestion des produits";
 
@@ -39,7 +38,7 @@ public class SwaggerConfig {
                 .apiInfo(apiInfo())
                 .pathMapping("/")
                 .select()
-                .paths(PathSelectors.regex(".*"))
+                .paths(PathSelectors.regex(".*")) //PathSelectors.any()
                 .build();
 
     }

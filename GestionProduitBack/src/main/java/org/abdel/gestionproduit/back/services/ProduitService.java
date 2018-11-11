@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.abdel.gestionproduit.back.dao.ProduitRepository;
 import org.abdel.gestionproduit.back.entities.Produit;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +32,16 @@ public class ProduitService {
 
 	@Autowired
 	private ProduitRepository repo;
+	
+	private static final Logger log = LogManager.getLogger(ProduitService.class);
+	
+	private void log(){
+		log.debug("RECHERCHER");
+		log.info("RECHERCHER");
+		log.warn("RECHERCHER");
+		log.error("RECHERCHER");
+		log.fatal("RECHERCHER");
+	}
 
 	
 	@RequestMapping(value = "/produits",method=RequestMethod.GET)
@@ -52,6 +64,8 @@ public class ProduitService {
 			@RequestParam(name="design") String designation,
 			@RequestParam(defaultValue="0") int page,
 			@RequestParam(defaultValue="3") int size){
+		this.log();
+		
 		return repo.chercherParDesignation(designation, new PageRequest(page, size));
 	}
 
