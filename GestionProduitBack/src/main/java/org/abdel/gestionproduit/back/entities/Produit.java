@@ -3,13 +3,14 @@ package org.abdel.gestionproduit.back.entities;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.io.Serializable;
 
 /**
  * @author ABDELCHAG
  *
  */
 @Entity
-public class Produit {
+public class Produit implements Serializable {
 	
 	@Id @GeneratedValue
 	private Long id;

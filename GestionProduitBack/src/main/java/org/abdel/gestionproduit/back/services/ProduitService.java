@@ -7,6 +7,9 @@ import org.abdel.gestionproduit.back.entities.Produit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
@@ -45,6 +48,7 @@ public class ProduitService {
 
 	
 	@RequestMapping(value = "/produits",method=RequestMethod.GET)
+	@Cacheable(value = "itemCache")
 	@ApiOperation("Get all product")
 	@ApiResponses(value = {@ApiResponse(code = 200, message = "OK", response = Produit.class, responseContainer = "List"),
 							@ApiResponse(code= 500, message = "Erreur Serveur", response = RuntimeException.class),
@@ -54,11 +58,13 @@ public class ProduitService {
 	}
 	
 	@RequestMapping(value="/produits/{id}", method=RequestMethod.GET)
+	@Cacheable(value = "itemCache", key = "#id")
 	public Produit getProduitById(@PathVariable("id") Long id){
 		return repo.findOne(id);
 	}
 	
 	@RequestMapping(value="/chercher", method=RequestMethod.GET)
+	@Cacheable(value = "itemCache", key = "#designation")
 	@ApiResponse(code = 200, message = "OK", response = Produit.class, responseContainer = "Page")
 	public Page<Produit> getProduitsByDesign(
 			@RequestParam(name="design") String designation,
@@ -79,18 +85,21 @@ public class ProduitService {
 	}
 	
 	@RequestMapping(value="/produits", method=RequestMethod.POST)
+	@CachePut(value = "itemCache")
 	@ApiResponse(code = 200, message = "OK", response = Produit.class)
 	public Produit saveProduit(@RequestBody Produit produit){
 		return repo.save(produit);
 	}
 	
 	@RequestMapping(value="/produits/{id}", method=RequestMethod.DELETE)
+	@CacheEvict(value = "itemCache", key = "#id")
 	@ApiResponse(code = 200, message = "OK")
 	public void deleteProduit(@PathVariable Long id){
 		repo.delete(id);
 	}
 	
 	@RequestMapping(value="/produits/{id}", method=RequestMethod.PUT)
+	@CachePut(value = "itemCache", key = "#id")
 	@ApiResponse(code = 200, message = "OK", response = Produit.class)
 	public Produit saveProduit(@PathVariable Long id, @RequestBody Produit produit){
 		produit.setId(id);
